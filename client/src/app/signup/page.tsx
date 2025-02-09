@@ -5,7 +5,7 @@ import './signUp.css';
 import BottomNav from '../components/bottomNav.js';
 import Header from '../components/Header';
 import SignUpForm from '../components/signUpForm.js';
-import { UserProvider } from '../context/user';
+import { UserProvider } from '../login/context';
 // import { useUser } from '../signUp/context/signUp';
 
 const SignUp = () => {

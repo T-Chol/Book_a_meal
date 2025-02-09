@@ -1,37 +1,22 @@
-// client/src/app/signUp/page.tsx
+// client/src/app/signIn/page.jsx
 
-"use client";  
 import React, { useState } from "react";
-import { useUser } from '../login/context'; // Import login from context
-import axios from "axios";
+import { useUser } from '../login/context';
 
-export default function SignUpForm() {
+export default function SignInForm() {
     const { login } = useUser(); // Use login function from context
-    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState("user"); // Default role is set to "user"
+    const [username, setUsername] = useState(""); // For optional username-based login
+    const [isEmailLogin, setIsEmailLogin] = useState(true); // Toggle between email/username login
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            // Register the user
-            const response = await axios.post("http://localhost:5000/signup", {
-                username,
-                email,
-                password,
-                role,
-            });
+        const credentials = isEmailLogin
+            ? { email, password }
+            : { username, password };
 
-            // Automatically log in the user
-            const credentials = email ? { email, password } : { username, password }; 
-            await login(credentials);
-
-            alert("User registered and logged in successfully!");
-        } catch (error) {
-            console.error(error);
-            alert("Error during sign up");
-        }
+        await login(credentials);
     };
 
     return (
@@ -41,11 +26,10 @@ export default function SignUpForm() {
                 <input
                     type="text"
                     id="username"
-                    name="username"
                     placeholder="Enter your username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    required
+                    disabled={isEmailLogin} // Disable if logging in with email
                 />
             </div>
             <div>
@@ -56,7 +40,7 @@ export default function SignUpForm() {
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
+                    disabled={!isEmailLogin} // Disable if logging in with username
                 />
             </div>
             <div>
@@ -70,12 +54,13 @@ export default function SignUpForm() {
                     required
                 />
             </div>
-            <button type="submit">Sign Up</button>
 
-            <div className="signup-footer">
-                <p>
-                    Already have an account? <a href="/login">Login</a>
-                </p>
+            <button type="submit">Sign In</button>
+
+            <div>
+                <button type="button" onClick={() => setIsEmailLogin(!isEmailLogin)}>
+                    {isEmailLogin ? "Login with Username" : "Login with Email"}
+                </button>
             </div>
         </form>
     );

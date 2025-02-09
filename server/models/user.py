@@ -1,5 +1,5 @@
 # server/models/user.py
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from enum import Enum
 from models.database import db
@@ -17,7 +17,15 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    role = db.Column(db.Enum(RoleEnum), nullable=False)
+    _role = db.Column("role", db.String(50), nullable=False)
+
+    @property
+    def role(self):
+        return self._role.lower()  # Ensure the role is returned in lowercase
+
+    @role.setter
+    def role(self, value):
+        self._role = value.lower()  # Ensure the role is stored in lowercase
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')

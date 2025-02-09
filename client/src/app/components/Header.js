@@ -126,7 +126,7 @@ function Header({ handleLogout, isLoggedIn, user }) {
 
 <li className="nav-item">
 <div >
-  {user ?<Link className=' mx-2  bg-slate-10 ring-red-600 ring-1 text-xl  text-red-600 p-2 rounded-md' href={"/"} >Log Out</Link> : <Link className='  nav-link btn btn-secondary mx-2 bg-gray-500 p-2 rounded-md ' href={"/signUp"}>Sign Up</Link>  }
+  {user ?<Link className=' mx-2  bg-slate-10 ring-red-600 ring-1 text-xl  text-red-600 p-2 rounded-md' href={"/"} >Log Out</Link> : <Link className='  nav-link btn btn-secondary mx-2 bg-gray-500 p-2 rounded-md ' href={"/signup"}>Sign Up</Link>  }
 </div>
 </li>
 
