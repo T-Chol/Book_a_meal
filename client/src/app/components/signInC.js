@@ -22,12 +22,14 @@ const SignIn = () => {
 
             // Check the user's role and redirect accordingly
             const role = response.data.role; // Assuming the response contains the user's role
-            if (role === "ADMIN") {
+            if (role === "admin") {
                 router.push("/big");
-            } else if (role === "CATERER") {
+            } else if (role === "caterer") {
                 router.push("/medium");
-            } else {
+            } else if (role === "user") {
                 router.push("/small");
+            } else {
+                router.push("/retry");
             }
             alert("Login successful");
         } catch (error) {
