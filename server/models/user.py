@@ -1,21 +1,29 @@
-from enum import Enum
-from .database import db
+# server/models/user.py
+from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
- 
+from enum import Enum
+from models.database import db
 
-# Define the Role enum
+bcrypt = Bcrypt()
+
 class RoleEnum(Enum):
-    CHEF = 'chef'
-    USER = 'user'
-    ADMIN = 'admin'
+    USER = "user"
+    ADMIN = "admin"
+    CATERER = "caterer"
 
-# Define the User model
 class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(4), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.Enum(RoleEnum), nullable=False)
 
+    def set_password(self, password):
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password)
+
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.password}', '{self.role}')"
+        return f"<User id={self.id}, username={self.username}, email={self.email}, role={self.role}>"

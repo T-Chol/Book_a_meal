@@ -1,47 +1,56 @@
-// client/src/app/components/signUpForm.js
+// client/src/app/signUp/page.tsx
+
 import React from "react"
 import { useState } from "react";
-import { useUser } from '../signUp/context/signUp';
+import { useUser } from '../context/user';
 
 
 export default function SignUpForm (){
-// const { signUp } = useUser();  // Correct usage of useUser to get signUp
-const {user} =useUser();
-const {signUp}=useUser();
-const [username, setUsername] = useState('');
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
-// const {handleSubmit} = useUser();
+// const {user} =useUser();
+// const {signUp}=useUser();
+// const [username, setUsername] = useState('');
+// const [email, setEmail] = useState('');
+// const [password, setPassword] = useState('');
+
+ 
 // const handleSubmit = async (e) => {
 //     e.preventDefault(); // Prevent default form submission behavior
-//     // Call signUp function (you might also need to pass more info like role)
+//     // Add the 'role' field in the payload
 //     try {
-//         const response = await signUp({ username, email, password});
+//         const response = await signUp({ 
+//             username, 
+//             email, 
+//             password, 
+//             role: 'user' // Set a default role for the user
+//         });
 //         console.log("User signed up successfully:", response);
 //         // Optionally handle response (e.g., redirect, show success message)
 //     } catch (error) {
 //         console.error("Error signing up:", error);
 //         // Handle error (show error message to the user)
 //     }
-//     };
- 
-const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    // Add the 'role' field in the payload
-    try {
-        const response = await signUp({ 
-            username, 
-            email, 
-            password, 
-            role: 'user' // Set a default role for the user
-        });
-        console.log("User signed up successfully:", response);
-        // Optionally handle response (e.g., redirect, show success message)
-    } catch (error) {
-        console.error("Error signing up:", error);
-        // Handle error (show error message to the user)
-    }
-};
+// };
+const { login } = useUser(); // Use login function from context
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("USER");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:5000/signup", {
+                username,
+                email,
+                password,
+                role,
+            });
+            alert("User registered successfully. Please log in.");
+        } catch (error) {
+            console.error(error);
+            alert("Error during sign up");
+        }
+    };
 
 
     return (
