@@ -52,5 +52,6 @@ def login():
     access_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
     return jsonify({
         "access_token": access_token,
-        "role": user.role
+        "role": user.role,
+        "username": user.username
     }), 200

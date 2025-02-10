@@ -1,7 +1,8 @@
-// client/src/app/signIn/page.jsx
+// client/src/app/components/signIn.js
+
 
 import React, { useState } from "react";
-import { useUser } from '../login/context';
+import { useUser } from '../context/context';
 
 export default function SignInForm() {
     const { login } = useUser(); // Use login function from context
@@ -20,10 +21,13 @@ export default function SignInForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="username">Username:</label>
+        <form onSubmit={handleSubmit} className="  contents-center w-1/2 bg-white/90 opacity-100 h-96 ml-80 rounded-2xl p-20   ">
+            <h1 className=" text-2xl font-bold mb-6 text-center text-gray-800 ">LOGIN</h1>
+            <div>    <p className="text-gray-600 mb-6 text-center">How to I get started lorem ipsum dolor at?</p>
+
+                <label htmlFor="username" >Username:</label>
                 <input
+                className="block text-gray-700 text-sm font-bold mb-2"
                     type="text"
                     id="username"
                     placeholder="Enter your username"
