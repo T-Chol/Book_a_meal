@@ -2,7 +2,7 @@
 
 "use client";  
 import React, { useState } from "react";
-import { useUser } from '../context/context'; // Import login from context
+import { useUser } from '../context/user'; // Import login from context
 import axios from "axios";
 
 export default function SignUpForm() {

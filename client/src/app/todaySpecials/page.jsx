@@ -1,26 +1,28 @@
+
 "use client";
 
 import withAuth from "../hoc/withAuth";
 import { useUser } from "../context/user";
+import MealList from "../components/MealList";
 
-function Admin() {
+function TodaySpecials() {
   const { user, loading } = useUser();
 
   if (loading) return <div>Loading...</div>;
 
   return (
     <div>
-      <h1>Admin Page</h1>
+      <h1>Caterer Page</h1>
       {user ? (<>
-        <p>Role: <strong>{user.role}</strong></p>
-        <p>Welcome  <strong>{user.username}</strong></p>
+        <p>Welcome Chef <strong>{user.username}</strong></p>
         </>
       ) : (
         <p>No user data available.</p>
       )}
+      <MealList  />
     </div>
   );
 }
 
 // ✅ Ensure role is passed as a string, not an object
-export default withAuth(Admin, "admin");
+export default withAuth(TodaySpecials);

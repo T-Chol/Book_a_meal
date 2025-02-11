@@ -1,29 +1,34 @@
+// client/src/app/hoc/withAuth.js
 "use client";
 
-import { useUser } from "../context/context";
+import { useUser } from "../context/user";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const withAuth = (WrappedComponent, requiredRole = null) => {
-    return function AuthComponent(props) {
-        const { user, loading } = useUser();
-        const router = useRouter();
+return function AuthComponent(props) {
+    const { user, loading: userLoading } = useUser();
+    const router = useRouter();
 
-        useEffect(() => {
-            if (!loading) {
-                if (!user) {
-                    router.replace("/login"); // Redirect if not authenticated
-                } else if (requiredRole && user.role !== requiredRole) {
-                    router.replace("/unauthorized"); // Redirect if role doesn't match
-                }
-            }
-        }, [user, loading, router]); // 🔥 Re-evaluates when `user` updates
+    useEffect(() => {
+        if (!userLoading && (!user || !user.role)) {
 
-        if (loading) return <div>Loading...</div>;
-        if (!user || (requiredRole && user.role !== requiredRole)) return null;
+            router.replace("/login");
+        }
+    }, [user, userLoading, router]);
 
-        return <WrappedComponent {...props} />;
-    };
+    if (userLoading) return <div>Loading...</div>;
+
+    if (!user || !user.role) {
+        return <p>Please log in to access this page.</p>;
+    }
+
+    if (requiredRole && user.role !== requiredRole) {
+        return <p>You do not have permission to access this page.</p>;
+    }
+
+    return <WrappedComponent {...props} />;
+};
 };
 
 export default withAuth;

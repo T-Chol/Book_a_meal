@@ -1,8 +1,8 @@
 "use client";
 
 
-import React, { useState } from "react";
-import { useUser } from "../context/context";
+import React, { useState, FormEvent } from "react";
+import { useUser } from "../context/user";
 
 export default function SignInForm() {
     const { login } = useUser();
@@ -12,9 +12,9 @@ export default function SignInForm() {
     const [isEmailLogin, setIsEmailLogin] = useState(true);
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) /*why I don't like typescript*/ => {
         e.preventDefault();
-        setLoading(true); // Prevent multiple requests
+        setLoading(true); 
 
         try {
             const credentials = isEmailLogin ? { email, password } : { username, password };

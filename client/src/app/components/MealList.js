@@ -1,145 +1,131 @@
-// // src/components/MealList.js
-// import React from 'react';
-// import MealCard from './MealCard';
-
-// const MealList = ({ meals }) => {
-//   return (
-//     <div className="meal-list">
-//       {meals.map((meal) => (
-//         <MealCard key={meal.id} meal={meal} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default MealList;
-
-
-// TO SELECT
-// src/components/MealList.js
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios'; // Import axios for easier API handling
-
-// function MealList({ handleAddToOrder }) {
-//   const [meals, setMeals] = useState([]); // State to store meals data
-//   const [loading, setLoading] = useState(true); // Loading state
-//   const [error, setError] = useState(null); // Error state
-
-//   // Fetch meals data from an external API (TheMealDB in this case)
-//   useEffect(() => {
-//     const fetchMeals = async () => {
-//       try {
-//         const response = await axios.get('https://www.themealdb.com/api/json/v1/1/search.php?s='); // Fetch all meals
-//         setMeals(response.data.meals); // Update meals state with fetched data
-//         setLoading(false); // Set loading to false after data is fetched
-//       } catch (err) {
-//         setError('Failed to fetch meals data');
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchMeals(); // Call the function to fetch meals
-//   }, []); // Empty array means the effect runs once after the initial render
-
-//   if (loading) {
-//     return <p>Loading menu...</p>;
-//   }
-
-//   if (error) {
-//     return <p>{error}</p>;
-//   }
-
-//   return (
-//     <div className="container mt-4">
-//       <h2>Menu List</h2>
-//       <div className="row">
-//         {meals.map((meal) => (
-//           <div className="col-md-4" key={meal.idMeal}>
-//             <div className="card">
-//               <img 
-//                 src={meal.strMealThumb || 'https://via.placeholder.com/150'} 
-//                 className="card-img-top" 
-//                 alt={meal.strMeal} 
-//               />
-//               <div className="card-body">
-//                 <h5 className="card-title">{meal.strMeal}</h5>
-//                 <p className="card-text">{meal.strInstructions.substring(0, 100)}...</p>
-//                 <button
-//                   className="btn btn-primary"
-//                   onClick={() => handleAddToOrder(meal)}
-//                 >
-//                   Add to My Order
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default MealList;
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios for easier API handling
 
-function MealList({ handleAddToOrder }) {
+function MealList() {
   const [meals, setMeals] = useState([]); // State to store meals data
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [mealCounts, setMealCounts] = useState({}); // Track meal quantities
+  const [activeMeals, setActiveMeals] = useState([]); // Track active meals
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const [itemsPerPage] = useState(8); // Number of items per page
 
   // Fetch meals data from an external API (TheMealDB in this case)
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await axios.get('https://www.themealdb.com/api/json/v1/1/search.php?s='); // Fetch all meals
-        setMeals(response.data.meals); // Update meals state with fetched data
-        setLoading(false); // Set loading to false after data is fetched
+        const response = await axios.get('https://www.themealdb.com/api/json/v1/1/search.php?s='); 
+        setMeals(response.data.meals);
+        setLoading(false);
       } catch (err) {
         setError('Failed to fetch meals data');
         setLoading(false);
       }
     };
 
-    fetchMeals(); // Call the function to fetch meals
-  }, []); // Empty array means the effect runs once after the initial render
+    fetchMeals();
+  }, []);
 
-  if (loading) {
-    return <p>Loading menu...</p>;
-  }
+  // Toggle "On Menu" Button
+  const handleAddToMenu = (mealId) => {
+    setActiveMeals((prev) => ({
+      ...prev,
+      [mealId]: !prev[mealId], // Toggle the state of the specific meal
+    }));
+  };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  const handleRemoveMeal = (mealId) => {
+    setMealCounts((prevCounts) => {
+      const newCounts = { ...prevCounts };
+      if (newCounts[mealId] > 0) {
+        newCounts[mealId] -= 1;
+      }
+      return newCounts;
+    });
+  };
+
+  // Increment Meal Count
+  const handleAddMeal = (mealId) => {
+    setMealCounts((prevCounts) => ({
+      ...prevCounts,
+      [mealId]: (prevCounts[mealId] || 0) + 1,
+    }));
+  };
+
+  // Calculate the current meals to display
+  const indexOfLastMeal = currentPage * itemsPerPage;
+  const indexOfFirstMeal = indexOfLastMeal - itemsPerPage;
+  const currentMeals = meals.slice(indexOfFirstMeal, indexOfLastMeal);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading) return <p>Loading menu...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <div className="container mt-4">
-      <h2>Menu List</h2>
-      <div className="row">
-        {meals.map((meal) => (
-          <div className="col-md-4 mb-4" key={meal.idMeal}>
-            <div className="card h-100">
-              <img 
-                src={meal.strMealThumb || 'https://via.placeholder.com/150'} 
-                className="card-img-top" 
-                alt={meal.strMeal} 
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">{meal.strMeal}</h5>
-                <p className="card-text">{meal.strInstructions.substring(0, 100)}...</p>
+    <>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">🍽️ Menu List</h2>
+      
+      <div className="grid md:grid-cols-4 bg-slate-300 gap-5 p-4">
+        {currentMeals.map((meal) => (
+          <div key={meal.idMeal} className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition duration-300">
+            <img 
+              src={meal.strMealThumb || 'https://via.placeholder.com/150'} 
+              alt={meal.strMeal} 
+              className="w-full h-56 object-cover transition transform hover:scale-105"
+            />
+            <div className="p-4">
+              <h5 className="text-lg font-bold text-gray-700 text-center">{meal.strMeal}</h5>
+
+              <div className="grid-rows-2 items-center">
+                {/* Add More Button */}
+                <div className="flex justify-between items-center mb-2">
+                  <button
+                    className="rounded-xl hover:shadow-red-700 p-1 w-1/2 border border-red-100 text-black hover:shadow-inner transition"
+                    onClick={() => handleRemoveMeal(meal.idMeal)}
+                  >
+                    - 
+                  </button>
+                  <p className='w-1/3 h-1/2 bg-white/90 text-center'>{mealCounts[meal.idMeal] || 0}</p>
+                  <button
+                    className="rounded-xl hover:shadow-white p-1 w-1/2 border border-lime-300 text-black hover:bg-blue-700 hover:shadow-inner transition"
+                    onClick={() => handleAddMeal(meal.idMeal)}
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Toggle On Menu Button */}
                 <button
-                  className="btn btn-primary mt-auto"
-                  onClick={() => handleAddToOrder(meal)} // Call handleAddToOrder with the selected meal
+                  className={`rounded-xl h-10 w-3/4 ml-6 transition-all duration-300 ${
+                    activeMeals[meal.idMeal] ? "bg-red-400 text-wrap text-white" : "bg-blue-100 text-gray-800"
+                  }`}
+                  onClick={() => handleAddToMenu(meal.idMeal)}
                 >
-                  Add to My Order
+                  {activeMeals[meal.idMeal] ? <p>{mealCounts[meal.idMeal] || 0} {meal.strMeal} Dishes</p> : " Add to Menu"}
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
-    </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-6">
+        {Array.from({ length: Math.ceil(meals.length / itemsPerPage) }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => paginate(i + 1)}
+            className={`mx-1 mb-10 px-4  py-2 rounded ${
+              currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+    </>
   );
 }
 
