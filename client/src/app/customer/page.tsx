@@ -6,6 +6,7 @@ import withMenu from "../hoc/withMenu";
 import { useUser } from "../context/user";
 import { useMenu } from "../context/menu";
 import MenuComponent from "../components/menu";
+import AuthHeader from "../components/authHeader";
 
 function Customer() {
 const { user, loading: userLoading } = useUser();
@@ -20,9 +21,8 @@ if (!user || !user.role) {
 return (
     // change it to mapped array of menu items
     <div>
-        <h1>Customer Page</h1>
-        <p>Role: <strong>{user.role}</strong></p>
-        <p>Welcome <strong>{user.username}</strong></p>
+ <AuthHeader />
+        <p className="ml-auto mr-0 p-4 absolute right-0">Welcome <strong>{user.username}!</strong></p>
         <MenuComponent menu={menu} user={user} />
     </div>
 

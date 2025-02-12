@@ -1,28 +1,28 @@
 
-"use client";
+// "use client";
 
-import withAuth from "../hoc/withAuth";
-import { useUser } from "../context/user";
-import MealList from "../components/MealList";
+// import withAuth from "../hoc/withAuth";
+// import { useUser } from "../context/user";
+// import MealList from "../components/MealList";
 
-function TodaySpecials() {
-  const { user, loading } = useUser();
+// function TodaySpecials() {
+//   const { user, loading } = useUser();
 
-  if (loading) return <div>Loading...</div>;
+//   if (loading) return <div>Loading...</div>;
 
-  return (
-    <div>
-      <h1>Caterer Page</h1>
-      {user ? (<>
-        <p>Welcome Chef <strong>{user.username}</strong></p>
-        </>
-      ) : (
-        <p>No user data available.</p>
-      )}
-      <MealList  />
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <h1>Caterer Page</h1>
+//       {user ? (<>
+//         <p>Welcome Chef <strong>{user.username}</strong></p>
+//         </>
+//       ) : (
+//         <p>No user data available.</p>
+//       )}
+//       <MealList  />
+//     </div>
+//   );
+// }
 
-// ✅ Ensure role is passed as a string, not an object
-export default withAuth(TodaySpecials);
+// // ✅ Ensure role is passed as a string, not an object
+// export default withAuth(TodaySpecials);

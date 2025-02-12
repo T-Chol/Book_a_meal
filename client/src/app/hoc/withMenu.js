@@ -39,12 +39,7 @@ return function MenuComponent(props) {
                 userLoading(false);
                 menuLoading(false);
             }
-            else if (!loading() && !token) {
-                alert("Session expired or unauthorized. Please log in again.");
-                router.replace("/login");
-                userLoading(false);
-                menuLoading(false);
-            }
+
         }
     }, [menu, menuLoading, router, user]);
 
