@@ -7,6 +7,7 @@ return (
 <div className="  flex-wrap justify-between m-auto rounded-md grid grid-cols-3 w-screen px-16 ">
     <div className="col-start-1  mb-4">
     <h4>Our Location</h4>
+    <p>p</p>
     <p>
         1234 Tea Avenue, Suite 100<br />
         Downtown City, State 12345<br />
