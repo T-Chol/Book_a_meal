@@ -1,3 +1,4 @@
+# server/routes/menu.py
 from flask import Blueprint, request, jsonify
 from models.menu import Menu
 from app import db
@@ -19,7 +20,7 @@ def get_menu():
 
 #  Add a new menu item
 @bp.route("/menu", methods=["POST"])
-@jwt_required()
+# @jwt_required()
 # try:
 #     user = User.query.get(get_jwt_identity()) 
     # if not user.role == "caterer":                       # shall be used to restrict access to caterers only
@@ -33,6 +34,7 @@ def add_menu_item():
 
     try:
         new_menu_item = Menu(
+            id=data.get("id"),
             name=data["name"],
             description=data["description"],
             price=float(data["price"]),

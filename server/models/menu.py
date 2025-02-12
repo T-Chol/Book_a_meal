@@ -1,3 +1,4 @@
+# server/models/menu.py
 from models.database import db
 
 class Menu(db.Model):
