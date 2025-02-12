@@ -2,3 +2,4 @@
 from .database import db
 from .user import User, RoleEnum
 from .menu import Menu
+from .order import Order

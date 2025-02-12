@@ -14,6 +14,8 @@ export const MenuProvider = ({ children }) => {
     const [mealCounts, setMealCounts] = useState({});
     const [activeMeals, setActiveMeals] = useState({});
     const { user, loading: userLoading } = useUser(); 
+    const [inCart, setInCart] = useState([]);
+
 
     useEffect(() => {
         if (!userLoading && user?.role) {  // ✅ Ensures `user.role` exists before fetching menu
@@ -98,7 +100,9 @@ export const MenuProvider = ({ children }) => {
             activeMeals, 
             setMealCounts, 
             setActiveMeals, 
-            updateMenu 
+            updateMenu, 
+            inCart,
+            setInCart
         }}>
             {children}
         </MenuContext.Provider>

@@ -1,8 +1,11 @@
+import { useMenu } from "../context/menu";
+
 // export default MenuComponent;
 const MenuComponent = ({ menu, user }) => {
     if (!user || !user.role) {
         return <p>Please log in to view the menu.</p>;
     }
+
 
     const fetchMenuFromBackend = async () => {
         try {
@@ -28,7 +31,12 @@ const MenuComponent = ({ menu, user }) => {
             setError("Failed to fetch menu data");
         }
     };
+  const { inCart, setInCart } = useMenu();
 
+  const addToCart = (item) => {
+    setInCart([...inCart, item]);
+  };
+const cart = useMenu();
     return (
         <div>
             <h2>Today's Menu</h2>
@@ -42,7 +50,7 @@ const MenuComponent = ({ menu, user }) => {
                         <p className="row-start-2 col-start-1 w-1/3 ">Price: ${item.price}</p>
                         <p className="row-start-1 col-start-1">Available: {item.quantity}</p>
                         <input placeholder="qnty" type={Number}  className="row-start-1 col-start-2 text-center font-semibold rounded-lg  "></input>
-                        <span className="row-start-2 col-start-2 w-2/3 bg-amber-500  text-white font-bold rounded-lg mt-3 transition duration-200">Add to Cart</span>
+                        <span className="row-start-2 col-start-2 w-2/3 bg-amber-500  text-white font-bold rounded-lg mt-3 transition duration-200" onClick={() => addToCart({ id: 1, name: 'Pizza', price: 10 })}>Add to Cart</span>
                         </div>
 
 <p className="relative w-[250px] max-w-[250px] bg-white shadow-sm p-2 rounded-2xl shadow-amber-300

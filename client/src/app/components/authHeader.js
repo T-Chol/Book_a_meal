@@ -3,7 +3,7 @@ import React from 'react';
 import './Header.css'; // Import the Header CSS
 import Link from 'next/link';
 
-function AuthHeader({ handleLogout, isLoggedIn, user }) {
+function AuthHeader() {
 return (
 
     <div className="  border-b-2 shadow-inner hover:shadow-teal-600 h-20 flex justify-between  items-center">
@@ -22,16 +22,16 @@ return (
         <li className="nav-item">
             <Link className="nav-link" href="/menu">Menu</Link>
         </li>
+
         <li className="nav-item">
-            <Link className="nav-link" href="/about">About Us</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" href="/team">Team</Link>
+            <Link className="nav-link" href="/orderPage">Order Now</Link>
         </li>
         <li className="nav-item">
             <Link className="nav-link" href="/specials">Today's Specials</Link>
         </li>
-        
+        <li className="nav-item ml-20 ">
+            <Link className="nav-link" href="/about">Cart 🛒 </Link>
+        </li>
     </ul>
 
 

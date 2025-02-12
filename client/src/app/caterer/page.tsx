@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import AuthHeader from "../components/authHeader";
 
 function Caterer() {
-  
   const { user, loading } = useUser();
 
   if (loading) return <div>Loading...</div>;

@@ -1,7 +1,7 @@
 # server/routes/user.py
 from flask import Blueprint, request, jsonify
-from models import db, User
-from models.user import bcrypt
+from models.database import db 
+from models.user import bcrypt, User
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 from werkzeug.security import check_password_hash 
@@ -24,9 +24,9 @@ def signup():
     if User.query.filter_by(email=data['email']).first():
         return jsonify({"message": "User already exists"}), 400
     # Normalize role to lowercase before saving
-    role = data['role'].lower()  # Ensure the role is lowercase
+    role = data.get('role', 'user').lower()  # Default to 'user' if role is not provided
     # Create a new user
-    user = User(username=data['username'], email=data['email'], role=role)
+    user = User(username=data['username'], email=data['email'], role=role.lower())
     user.set_password(data['password'])
     
     db.session.add(user)
