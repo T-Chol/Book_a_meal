@@ -2,33 +2,31 @@
 "use client";
 
 import { useUser } from "../context/user";
+import { useEffectsHandler } from "../context/useEffectsHandler";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 const withAuth = (WrappedComponent, requiredRole = null) => {
-return function AuthComponent(props) {
-    const { user, loading: userLoading } = useUser();
+  return function AuthComponent(props) {
+    const { user, loading: userLoading, fetchUser } = useUser();
     const router = useRouter();
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-    useEffect(() => {
-        if (!userLoading && (!user || !user.role)) {
+    useEffectsHandler({ user, userLoading, fetchUser });
 
-            router.replace("/login");
-        }
-    }, [user, userLoading, router]);
+    if (userLoading) return <div className="p-24 font-serif font-semibold">Loading...</div>;
 
-    if (userLoading) return <div>Loading...</div>;
-
-    if (!user || !user.role) {
-        return <p>Please log in to access this page.</p>;
+    if (!token) {
+      router.push("/login");
+      return null;
     }
+
+    if (!user || !user.role) return null;
 
     if (requiredRole && user.role !== requiredRole) {
-        return <p>You do not have permission to access this page.</p>;
-    }
+router.push("/login");    }
 
     return <WrappedComponent {...props} />;
-};
+  };
 };
 
 export default withAuth;

@@ -32,4 +32,5 @@ instance/
 *.db
 
 migrations/
-.devdbrc/
+.devdbrc
+Procfile.dev

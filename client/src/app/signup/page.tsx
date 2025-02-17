@@ -1,9 +1,8 @@
 // client/src/app/signUp/page.tsx
 "use client";
-import React, { useState } from 'react';
 import './signUp.css';
 import BottomNav from '../components/bottomNav.js';
-import Header from '../components/Header';
+import Header from '../components/header';
 import SignUpForm from '../components/signUpForm.js';
 import { UserProvider } from '../context/user';
 

@@ -6,6 +6,8 @@ from app import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy.exc import IntegrityError
 
+from server.models.user import User
+
 bp = Blueprint("order_routes", __name__)
 
 @bp.route("/order", methods=["POST"])

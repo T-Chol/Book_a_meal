@@ -24,5 +24,4 @@
 //   );
 // }
 
-// // ✅ Ensure role is passed as a string, not an object
 // export default withAuth(TodaySpecials);

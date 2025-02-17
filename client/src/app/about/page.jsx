@@ -1,12 +1,13 @@
 import React from 'react';
 import './about.css';
-import Header from '../components/Header';
+// import Header from '../components/Header';
 import BottomNav from '../components/bottomNav.js';
 
 const AboutUs = () => {
   return (
     <>
-    <Header />
+    {/* <Header /> */}
+    
     <div className="about px-16 pt-18 "> 
       <header>
         <h1>About Us</h1>

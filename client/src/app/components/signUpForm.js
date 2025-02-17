@@ -2,28 +2,26 @@
 
 "use client";  
 import React, { useState } from "react";
-import { useUser } from '../context/user'; // Import login from context
+import { useUser } from '../context/user'; 
 import axios from "axios";
 
 export default function SignUpForm() {
-    const { login } = useUser(); // Use login function from context
+    const { login } = useUser(); 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState("user"); // Default role is set to "user"
+    const [role, setRole] = useState("user"); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Register the user
-            const response = await axios.post("http://localhost:5000/signup", {
+            const response = await axios.post("/signup", {
                 username,
                 email,
                 password,
                 role,
             });
 
-            // Automatically log in the user
             const credentials = email ? { email, password } : { username, password }; 
             await login(credentials);
 

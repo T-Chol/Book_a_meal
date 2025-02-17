@@ -1,8 +1,10 @@
+// client/src/app/context/menu.jsx
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { useUser } from "./user"; 
+import { useEffectsHandler } from "./useEffectsHandler";
 
 const MenuContext = createContext();
 
@@ -14,16 +16,10 @@ export const MenuProvider = ({ children }) => {
     const [mealCounts, setMealCounts] = useState({});
     const [activeMeals, setActiveMeals] = useState({});
     const { user, loading: userLoading } = useUser(); 
-    const [inCart, setInCart] = useState([]);
+    const [cart, setCart] = useState([]);
+    const [myCart, setMyCart] = useState([]);
 
-
-    useEffect(() => {
-        if (!userLoading && user?.role) {  // ✅ Ensures `user.role` exists before fetching menu
-            fetchMeals();
-            fetchMenuFromBackend();
-        }
-    }, [user, userLoading]); 
-
+    //  Fetch meals from external API
     const fetchMeals = async () => {
         try {
             const response = await axios.get("https://www.themealdb.com/api/json/v1/1/search.php?s=");
@@ -33,8 +29,10 @@ export const MenuProvider = ({ children }) => {
             setError("Failed to fetch meals data");
             setLoading(false);
         }
+        
     };
 
+    //  Fetch menu from backend
     const fetchMenuFromBackend = async () => {
         try {
             const token = localStorage.getItem("token"); 
@@ -57,10 +55,11 @@ export const MenuProvider = ({ children }) => {
             setMenu(menuItems);
         } catch (error) {
             console.error("Error fetching menu:", error);
-            setError("Failed to fetch menu data");
+            alert("Failed to fetch menu data");
         }
     };
 
+    // ✅ Add meals from API to the menu
     const updateMenu = async (selectedMeals, meals, mealCounts) => {
         try {
             const token = localStorage.getItem("token");
@@ -90,6 +89,8 @@ export const MenuProvider = ({ children }) => {
         }
     };
 
+    useEffectsHandler({ user, userLoading, fetchMeals, fetchMenuFromBackend });
+
     return (
         <MenuContext.Provider value={{ 
             menu, 
@@ -101,8 +102,10 @@ export const MenuProvider = ({ children }) => {
             setMealCounts, 
             setActiveMeals, 
             updateMenu, 
-            inCart,
-            setInCart
+            cart,
+            setCart,
+            myCart,
+            setMyCart
         }}>
             {children}
         </MenuContext.Provider>

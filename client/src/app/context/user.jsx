@@ -1,28 +1,29 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; 
+import { createContext, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
+    const router = useRouter();
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const router = useRouter(); 
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        fetchUser();
-    }, []);
+    const getToken = () => (typeof window !== "undefined" ? localStorage.getItem("token") : null);
+    const getRefreshToken = () => (typeof window !== "undefined" ? localStorage.getItem("refresh_token") : null);
+    const setToken = (token) => { if (typeof window !== "undefined") localStorage.setItem("token", token); };
+    const setRefreshToken = (refreshToken) => { if (typeof window !== "undefined") localStorage.setItem("refresh_token", refreshToken); };
+    const removeTokens = () => { if (typeof window !== "undefined") { localStorage.removeItem("token"); localStorage.removeItem("refresh_token"); }};
 
     const fetchUser = async () => {
-        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        
-        if (!token) {
-            setLoading(false);
-            return;
-        }
+        if (typeof window === "undefined") return;
+        const token = getToken();
+        if (!token) return;
 
+        setLoading(true);
         try {
             const response = await axios.get("http://localhost:5000/profile", {
                 headers: { Authorization: `Bearer ${token}` },
@@ -32,58 +33,57 @@ export const UserProvider = ({ children }) => {
                 id: response.data.id,
                 username: response.data.username,
                 email: response.data.email,
-                role: response.data.role || "guest",
+                role: response.data.role || "user",
             });
-        } catch (error) {
-            // console.error("Failed to fetch user:", error);
-
-
+        } catch {
+            logout(); 
         } finally {
             setLoading(false);
         }
     };
 
-    useEffect(() => {
-        if (!user && typeof window !== "undefined" && localStorage.getItem("token")) {
-            fetchUser();
-        }
-    }, [user]);
-
     const login = async (credentials) => {
+        setLoading(true);
         try {
-            const response = await axios.post("http://localhost:5000/login", credentials);
-            const token = response.data.access_token;
-            localStorage.setItem("token", token);
+            const response = await axios.post("http://127.0.0.1:5000/login", credentials);
+            setToken(response.data.access_token);
+            setRefreshToken(response.data.refresh_token);
 
-            setUser({
+            const newUser = {
                 id: response.data.id,
                 username: response.data.username,
                 email: response.data.email,
                 role: response.data.role || "guest",
-            });
+            };
 
-            if (response.data.role === "user") {
-                router.push("/customer");
-            } else if (response.data.role === "admin") {
-                router.push("/admin");
-            } else if (response.data.role === "caterer") {
-                router.push("/caterer");
-            } else {
-                return alert("Invalid role.");
-                        }
-        } catch (error) {
-            alert("Invalid email or password.");
+            setUser(newUser);
+            fetchUser(); // 🔥 Ensure fetchUser() runs after login
+
+            setTimeout(() => {
+                if (newUser.role === "user") {
+                    router.push("/myCart");
+                } else if (newUser.role === "admin") {
+                    router.push("/admin");
+                } else if (newUser.role === "caterer") {
+                    router.push("/caterer");
+                    toast.success("Welcome Chef, what's on the menu today?", { autoClose: 2000 });
+                }
+            }, 100);
+        } catch {
+            toast.error("Invalid email or password.", { autoClose: 3000 });
+        } finally {
+            setLoading(false);
         }
     };
 
     const logout = () => {
-        localStorage.removeItem("token");
+        removeTokens();
         setUser(null);
         router.push("/login");
     };
 
     return (
-        <UserContext.Provider value={{ user, login, logout, loading }}>
+        <UserContext.Provider value={{ user, fetchUser, login, logout, loading, getRefreshToken, setToken }}>
             {children}
         </UserContext.Provider>
     );

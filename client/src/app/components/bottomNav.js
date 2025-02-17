@@ -3,7 +3,6 @@ import React from "react";
 export default function BottomNav() {
 return (
 <>
-
 <div className="  flex-wrap justify-between m-auto rounded-md grid grid-cols-3 w-screen px-16 ">
     <div className="col-start-1  mb-4">
     <h4>Our Location</h4>

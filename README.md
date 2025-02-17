@@ -34,3 +34,11 @@ python -m app     # Starts the Flask application
 
 
 note that caterer, customer and large are just test files only
+
+
+about
+caterer
+login
+home
+sign up
+orderPage

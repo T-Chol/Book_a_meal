@@ -1,31 +1,16 @@
-// client/src/app/myCart/page.jsx
-import React, { use } from 'react'
-const { inCart, setInCart } = useMenu();
-useEffect(() => {
-    fetchCartFromBackend();
-}, []);
 
-fetchCartFromBackend = async () => {
-    try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/cart", {
-            headers: { Authorization: `Bearer ${token}` },
-        });
+"use client";
+import UserHeader from "../components/userHeader";
+import withAuth from "../hoc/withAuth";
 
-        const cartItems = response.data || [];
+import React from 'react'
 
-        setInCart(cartItems);
-    } catch (error) {
-        console.error("Error fetching cart:", error);
-        setError("Failed to fetch cart data");
-    }
-};
-function Cart() {
+function page() {
   return (
-    <div>
-      
-    </div>
+    <>
+    <UserHeader/>
+      <p>my cart</p>
+    </>
   )
 }
-
-export default withMenu(WithAuth(Cart, "customer"));
+export default withAuth(page, "user");

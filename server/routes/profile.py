@@ -6,7 +6,7 @@ bp = Blueprint('user_routes', __name__)
 
 # Get user profile - Protected route
 @bp.route('/profile', methods=['GET'])
-@jwt_required()  # This decorator ensures that the user is authenticated (JWT required)
+@jwt_required()  # authenticates user
 def profile():
     # Get the current user's identity (user id from JWT)
     user_id = get_jwt_identity()

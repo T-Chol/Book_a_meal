@@ -19,6 +19,10 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     _role = db.Column("role", db.String(50), nullable=False)
 
+    
+ # Relationship
+    carts = db.relationship('MyCart', back_populates='user', cascade='all, delete-orphan')
+
     @property
     def role(self):
         return self._role.lower()  # Ensure the role is returned in lowercase

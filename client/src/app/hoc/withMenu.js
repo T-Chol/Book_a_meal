@@ -1,3 +1,4 @@
+// client/src/app/hoc/withMenu.js
 "use client";
 
 import { useUser } from "../context/user";
@@ -41,7 +42,7 @@ return function MenuComponent(props) {
             }
 
         }
-    }, [menu, menuLoading, router, user]);
+    }, [menu, menuLoading, userLoading,router, user]);
 
     //  Redirect after 5 seconds
 useEffect(() => {
