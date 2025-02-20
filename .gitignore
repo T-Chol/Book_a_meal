@@ -34,3 +34,9 @@ instance/
 migrations/
 .devdbrc
 Procfile.dev
+server/.railway
+server/Dockerfile
+server/Procfile.production
+server/Pipfile.lock
+server/Pipfile
+server/start.sh
