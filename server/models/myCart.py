@@ -13,6 +13,7 @@ class MyCart(db.Model):
     # Relationships
     user = db.relationship("User", backref="cart_items")
     meal = db.relationship("Menu", backref="cart_orders")
+    __table_args__ = {"extend_existing": True}
 
     def to_dict(self):
         return {

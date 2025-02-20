@@ -1,0 +1,1 @@
+server: FLASK_ENV=production source server/.env.production && gunicorn --workers=4 --bind 0.0.0.0:5001 --chdir ./server "app:app"

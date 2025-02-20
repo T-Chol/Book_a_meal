@@ -8,6 +8,7 @@ class Menu(db.Model):
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     picture = db.Column(db.String(255), nullable=True)  # URL to food image
+    __table_args__ = {"extend_existing": True}
 
     def to_dict(self):
         return {

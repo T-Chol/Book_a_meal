@@ -9,6 +9,8 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
+    
+    __table_args__ = {"extend_existing": True}
 
     user = db.relationship('User', backref='orders')
     menu_item = db.relationship('Menu', backref='orders')

@@ -1,11 +1,12 @@
 // client/src/app/signUp/page.tsx
-
 "use client";  
 import React, { useState } from "react";
 import { useUser } from '../context/user'; 
 import axios from "axios";
 
 export default function SignUpForm() {
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     const { login } = useUser(); 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function SignUpForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("/signup", {
+            const response = await axios.post(`${API_BASE}/signup`, {
                 username,
                 email,
                 password,

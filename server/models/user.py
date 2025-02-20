@@ -19,7 +19,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     _role = db.Column("role", db.String(50), nullable=False)
 
-    
+    __table_args__ = {"extend_existing": True}
  # Relationship
     carts = db.relationship('MyCart', back_populates='user', cascade='all, delete-orphan')
 

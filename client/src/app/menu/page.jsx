@@ -1,17 +1,19 @@
+// client/src/app/menu/page.jsx
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import Header from "../components/header";
 
-// ✅ Dynamically import with preloading
+// ✅ Dynamically import MealCard (only loads on client)
 const LazyMealCard = dynamic(() => import("../components/MealCard"), {
   loading: () => <p className="text-center text-gray-600">Loading...</p>,
-  ssr: false, // Only load on client
+  ssr: false,
 });
 
 function MenuPage() {
+  const API_URL = process.env.NEXT_PUBLIC_MEALS_API || "https://www.themealdb.com/api/json/v1/1/search.php?s=";
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,10 +23,11 @@ function MenuPage() {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await axios.get("https://www.themealdb.com/api/json/v1/1/search.php?s=");
+        const response = await axios.get(API_URL);
         setMeals(response.data.meals || []);
       } catch (err) {
-        setError("Failed to fetch meals data");
+        console.error("API Error:", err.message);
+        setError("Failed to fetch meals. Check your internet connection.");
       } finally {
         setLoading(false);
       }
@@ -49,18 +52,24 @@ function MenuPage() {
         {loading ? (
           <p className="text-center text-gray-600">Loading meals...</p>
         ) : error ? (
+          <>
           <p className="text-center text-red-600">{error}</p>
+          <button
+          onClick={fetchMeals}
+          className="block mx-auto bg-blue-500 text-white px-4 py-2 mt-2 rounded-md"
+        >
+          Retry
+        </button></>
         ) : (
           meals.map((meal) => (
-            <Suspense key={meal.idMeal} fallback={<p>Loading meal...</p>}>
-              <LazyMealCard
-                meal={meal}
-                hoveredMeal={hoveredMeal}
-                setHoveredMeal={setHoveredMeal}
-                likedMeals={likedMeals}
-                handleToggleHeart={handleToggleHeart}
-              />
-            </Suspense>
+            <LazyMealCard
+              key={meal.idMeal}
+              meal={meal}
+              hoveredMeal={hoveredMeal}
+              setHoveredMeal={setHoveredMeal}
+              likedMeals={likedMeals}
+              handleToggleHeart={handleToggleHeart}
+            />
           ))
         )}
       </div>

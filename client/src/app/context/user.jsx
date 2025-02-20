@@ -1,5 +1,5 @@
-"use client";
 
+"use client";
 import { createContext, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ;
+
     const router = useRouter();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -25,7 +27,7 @@ export const UserProvider = ({ children }) => {
 
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:5000/profile", {
+            const response = await axios.get(`${API_BASE}/profile`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -45,7 +47,7 @@ export const UserProvider = ({ children }) => {
     const login = async (credentials) => {
         setLoading(true);
         try {
-            const response = await axios.post("http://127.0.0.1:5000/login", credentials);
+            const response = await axios.post(`${API_BASE}/login`, credentials);
             setToken(response.data.access_token);
             setRefreshToken(response.data.refresh_token);
 

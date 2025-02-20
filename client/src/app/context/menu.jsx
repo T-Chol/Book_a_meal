@@ -6,9 +6,12 @@ import axios from "axios";
 import { useUser } from "./user"; 
 import { useEffectsHandler } from "./useEffectsHandler";
 
+
 const MenuContext = createContext();
 
 export const MenuProvider = ({ children }) => {
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     const [menu, setMenu] = useState([]);
     const [meals, setMeals] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -36,7 +39,7 @@ export const MenuProvider = ({ children }) => {
     const fetchMenuFromBackend = async () => {
         try {
             const token = localStorage.getItem("token"); 
-            const response = await axios.get("http://localhost:5000/menu", {
+            const response = await axios.get(`${API_BASE}/menu`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -76,7 +79,7 @@ export const MenuProvider = ({ children }) => {
                     description: meal.strInstructions,
                 };
 
-                return axios.post("http://localhost:5000/menu", updatedData, {
+                return axios.post(`${API_BASE}/menu`, updatedData, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
             });

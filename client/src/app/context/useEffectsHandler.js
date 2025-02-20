@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react"; 
+import { useEffect, useRef, useState } from "react";
 export const useEffectsHandler = (params = {}) => {
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+
     const {
-        user = JSON.parse(localStorage.getItem("http://localhost:5000/profile")) || null, // Fetch user from /profile
+        user = JSON.parse(localStorage.getItem(`${API_BASE}/profile`)) || null, // Fetch user from /profile
         userLoading = true,
         fetchUser = () => {},
         fetchMeals = () => {},

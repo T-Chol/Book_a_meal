@@ -1,11 +1,12 @@
-import os
 from dotenv import load_dotenv
+import os
 
-load_dotenv()
+# Load correct .env file based on environment
+env_file = os.getenv("FLASK_ENV", "development") == "production" and ".env.production" or ".env"
+load_dotenv(env_file)
 
 class Config:
-    # Database configuration
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'supersecretkey')
-    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'jwtsecretkey')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'supersecretkey')
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'jwtsecretkey')

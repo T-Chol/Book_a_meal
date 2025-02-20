@@ -1,4 +1,4 @@
-
+// client/src/app/orderPage/page.jsx
 "use client";
 import { useState, useEffect } from "react";
 import withAuth from "../hoc/withAuth";
@@ -6,8 +6,9 @@ import { useMenu } from "../context/menu";
 import Header from "../components/header";
 import { useUser } from "../context/user";
 import axios from "axios";
-
 function OrderPage() {
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const { menu, error, loading, cart, setCart, myCart, setMyCart } = useMenu();
   const { user } = useUser();
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,7 +26,7 @@ function OrderPage() {
     const fetchMyCart = async () => {
       if (!user) return;
       try {
-        const { data: updatedCart } = await axios.get("http://localhost:5000/myCart", {
+        const { data: updatedCart } = await axios.get(`${API_BASE}/myCart`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setMyCart(updatedCart);
@@ -78,12 +79,12 @@ function OrderPage() {
     }));
 
     try {
-      await axios.post("http://localhost:5000/myCart", myCartData, {
+      await axios.post(`${API_BASE}/myCart`, myCartData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
       // ✅ Fetch updated cart after checkout
-      const { data: updatedCart } = await axios.get("http://localhost:5000/myCart", {
+      const { data: updatedCart } = await axios.get(`${API_BASE}/myCart`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
