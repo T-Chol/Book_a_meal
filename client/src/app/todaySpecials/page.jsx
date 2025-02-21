@@ -2,26 +2,17 @@
 "use client";
 
 import withAuth from "../hoc/withAuth";
-import { useUser } from "../context/user";
-import MealList from "../components/MealList";
+
 
 function TodaySpecials() {
-  const { user, loading } = useUser();
 
-  if (loading) return <div>Loading...</div>;
 
-  return (
+return (
     <div>
-      <h1>Caterer Page</h1>
-      {user ? (<>
-        <p>Welcome Chef <strong>{user.username}</strong></p>
-        </>
-      ) : (
-        <p>No user data available.</p>
-      )}
-      <MealList  />
+    <h1>Caterer Page</h1>
+
     </div>
-  );
+);
 }
 
-export default withAuth(TodaySpecials);
+export default TodaySpecials;
