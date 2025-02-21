@@ -4,6 +4,7 @@
 import withAuth from "../hoc/withAuth";
 import { useMenu } from "../context/menu";
 import ChefHeader from "../components/cheffHeader";
+import Image from "next/image";
 
 function Caterer() {
   const { meals, loading, error } = useMenu();
@@ -25,7 +26,7 @@ function Caterer() {
               <p className=" font-serif font-thin text-gray-600">{meal.strCategory} - {meal.strArea}</p>
               <p className=" font-serif font-thin text-gray-900">{price}</p>
             </div>
-            <img
+            <Image
               src={meal.strMealThumb || "https://via.placeholder.com/150"}
               alt={meal.strMeal}
               className="w-full h-full p-2 hover:opacity-55"

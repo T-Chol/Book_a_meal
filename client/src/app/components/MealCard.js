@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 const MealCard = ({ meal, hoveredMeal, setHoveredMeal, likedMeals, handleToggleHeart }) => {
   return (
@@ -9,7 +10,7 @@ const MealCard = ({ meal, hoveredMeal, setHoveredMeal, likedMeals, handleToggleH
           {meal.strCategory} - {meal.strArea}
         </p>
       </div>
-      <img
+      <Image
         src={meal.strMealThumb || "https://via.placeholder.com/150"}
         alt={meal.strMeal}
         className="w-full h-full p-2 hover:opacity-55"

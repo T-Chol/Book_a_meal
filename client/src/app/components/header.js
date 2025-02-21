@@ -1,8 +1,11 @@
+// client/src/app/components/header.js
 "use client";
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+ 
 function Header() {
     const pathname = usePathname(); 
     const isActiveAuth = (href) => pathname === href ? "bg-orange-500 text-white rounded-md py-2 px-1  " : "text-center py-2";
@@ -12,7 +15,7 @@ function Header() {
         <div className="border-b-2 shadow-inner  hover:shadow-teal-600 h-20 flex justify-between items-center">
             {/* Hotel Logo */}
             <Link href="/landingPage">
-                <img height={120} width={160} src="./logo.jpeg" alt="Logo" className="hotel-logo"/>
+                <Image height={120} width={160} src="./logo.jpeg" alt="Logo" className="hotel-logo"/>
             </Link>
 
             {/* Navigation Links */}

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 function UserHeader() {
@@ -12,7 +13,7 @@ function UserHeader() {
     return (
         <div className="border-b-2 shadow-inner  hover:shadow-teal-600 h-20 flex justify-between items-center">
             <Link href="/landingPage">
-                <img height={120} width={160} src="./logo.jpeg" alt="Logo" className="hotel-logo"/>
+                <Image height={120} width={160} src="./logo.jpeg" alt="Logo" className="hotel-logo"/>
             </Link>
 
             <ul className="flex space-x-6 ml-auto">

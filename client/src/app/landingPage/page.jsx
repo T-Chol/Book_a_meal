@@ -1,6 +1,8 @@
+// client/src/app/landingPage/page.tsx
 import React from 'react';
 import Header from '../components/header.js';
 import './LandingPage.css';
+import Image from 'next/image';
 
 const LandingPage = () => {
 
@@ -14,7 +16,7 @@ const LandingPage = () => {
     <Header />
     <div className="landing-page">
     <div className="relative w-full h-screen bg-cover bg-center">
-  <img
+  <Image
     src="./new.png"
     alt="Welcome to Book A Meal"
     className="absolute m-auto mt-2 inset-0 w-11/12 h-screen object-center opacity-100" // Background image with reduced opacity

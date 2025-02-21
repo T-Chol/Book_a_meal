@@ -12,7 +12,8 @@ export default function SignUpForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("user"); 
-
+    const _setRole = useState(""); // Now ignored
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -25,8 +26,8 @@ export default function SignUpForm() {
 
             const credentials = email ? { email, password } : { username, password }; 
             await login(credentials);
-
-            alert("User registered and logged in successfully!");
+            console.log(response.data);
+            alert(response.data.name + " registered and logged in successfully!");
         } catch (error) {
             console.error(error);
             alert("Error during sign up");

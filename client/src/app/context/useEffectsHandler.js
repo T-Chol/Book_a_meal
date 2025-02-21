@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 export const useEffectsHandler = (params = {}) => {
     const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -39,7 +39,7 @@ export const useEffectsHandler = (params = {}) => {
             );
             updatedRemaining[meal.id] = Math.max(meal.quantity - (mealCountInCart + mealCountInMyCart), 0);
         });
-        setRemainingMeals(updatedRemaining); // ✅ Updates state dynamically
+        setRemainingMeals(updatedRemaining); 
 
-    }, [user, userLoading, fetchUser, fetchMeals, fetchMenuFromBackend, cart, myCart, menu, setRemainingMeals]); // ✅ Tracks cart & myCart changes
+    }, [user, userLoading, fetchUser, fetchMeals, fetchMenuFromBackend, cart, myCart, menu, setRemainingMeals, meals.length]); // ✅ Tracks cart & myCart changes
 };

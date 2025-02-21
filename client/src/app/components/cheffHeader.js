@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Import usePathname
 
@@ -13,7 +14,7 @@ function ChefHeader() {
         <div className="border-b-2 shadow-inner  hover:shadow-teal-600 h-20 flex justify-between items-center">
             {/* Hotel Logo */}
             <Link href="/landingPage">
-                <img height={120} width={160} src="./logo.jpeg" alt="Logo" className="hotel-logo"/>
+                <Image height={120} width={160} src="./logo.jpeg" alt="Logo" className="hotel-logo"/>
             </Link>
 
             <ul className="flex space-x-6 ml-auto">
