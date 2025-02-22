@@ -23,7 +23,7 @@ function MenuPage() {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get(`${API_URL}`);
         setMeals(response.data.meals || []);
       } catch (err) {
         console.error("API Error:", err.message);
