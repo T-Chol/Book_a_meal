@@ -11,7 +11,9 @@ class MyCart(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=1)
 
     # Relationships
-    user = db.relationship("User", backref="cart_items")
+    # In MyCart
+    user = db.relationship("User", backref="cart_items", overlaps="carts")
+    # user = db.relationship("User", backref="cart_items")
     meal = db.relationship("Menu", backref="cart_orders")
     __table_args__ = {"extend_existing": True}
 
