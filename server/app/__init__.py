@@ -33,7 +33,7 @@ def create_app(config_class=Config):
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=4)
 
     # Configure CORS (allow frontend requests)
-    frontend_origin = os.getenv("FRONTEND_URL", "http://localhost:5000")
+    frontend_origin = os.getenv("FRONTEND_URL", "http://localhost:3000")
     cors.init_app(app, resources={r"/*": {"origins": frontend_origin, "supports_credentials": True}})
 
     # Initialize Flask extensions
