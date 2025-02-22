@@ -16,11 +16,14 @@ const LandingPage = () => {
     <Header />
     <div className="landing-page">
     <div className="relative w-full h-screen bg-cover bg-center">
-  <Image
-    src="./new.png"
+    <Image
+    src="/new.png" // Use a relative path from the public folder
     alt="Welcome to Book A Meal"
-    className="absolute m-auto mt-2 inset-0 w-11/12 h-screen object-center opacity-100" // Background image with reduced opacity
-  />
+    width={1200} // Set appropriate width
+    height={600} // Set appropriate height
+    className="absolute m-auto mt-2 inset-0 w-11/12 h-screen object-center opacity-100"
+/>
+
   
   <div className="absolute inset-0 h-full backdrop-blur-sm"></div>
 

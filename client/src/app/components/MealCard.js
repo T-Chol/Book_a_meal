@@ -13,7 +13,9 @@ const MealCard = ({ meal, hoveredMeal, setHoveredMeal, likedMeals, handleToggleH
       <Image
         src={meal.strMealThumb || "https://via.placeholder.com/150"}
         alt={meal.strMeal}
-        className="w-full h-full p-2 hover:opacity-55"
+        width={180}
+        height={180}
+        className="w-full h-full p-1 rounded-2xl hover:opacity-55"
       />
       <button
         className="absolute bottom-2 right-2 bg-white/70 bg-gray-200 rounded-tl-[50%] m-3 h-24 w-24 shadow-md"
@@ -23,11 +25,11 @@ const MealCard = ({ meal, hoveredMeal, setHoveredMeal, likedMeals, handleToggleH
       >
         <span className="transition-transform duration-500 ease-in-out">
           {likedMeals[meal.idMeal] || hoveredMeal === meal.idMeal ? (
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="red">
+            <svg className="ml-4" width="40" height="40" viewBox="0 0 24 24" fill="red">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
           ) : (
-            <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
+            <svg className="ml-4" width="40" height="40" viewBox="0 0 50 50" fill="none">
               <circle cx="25" cy="25" r="24" fill="#0B0D17" stroke="white" strokeWidth="2" />
               <line x1="25" y1="15" x2="25" y2="35" stroke="white" strokeWidth="4" strokeLinecap="round" />
               <line x1="15" y1="25" x2="35" y2="25" stroke="white" strokeWidth="4" strokeLinecap="round" />
